@@ -1,6 +1,7 @@
 const { createFilePath } = require("gatsby-source-filesystem");
 const path = require("path");
 
+/*
 // Use for "Extending Nodes" that would be created at build time.
 exports.onCreateNode = ({ node, getNode, actions }) => {
   // if want to automatically generate slug from the post-file-name
@@ -15,9 +16,10 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
     });
   }
 
-  /** This Graphql Query could be use to fetch generated slugs */
+  // This Graphql Query could be use to fetch generated slugs 
   // The newly added slug could be found in **allMarkdownRemark.nodes.fields.slug** (The Graphiql Playground might not be able to detect *fields* field while querying in it.)
 };
+*/
 
 // Use for "creating Dynamic Pages", pages would dynamically created at build time.
 exports.createPages = ({ graphql, actions }) => {
@@ -25,14 +27,14 @@ exports.createPages = ({ graphql, actions }) => {
 
   return graphql(`
     {
-      allWpPost {
+      allSanityArticle {
         nodes {
           slug
         }
       }
     }
   `).then((results) => {
-    results.data.allWpPost.nodes.forEach((node) => {
+    results.data.allSanityArticle.nodes.forEach((node) => {
       createPage({
         path: node.slug,
         component: path.resolve("./src/templates/article.js"),

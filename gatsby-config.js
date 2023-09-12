@@ -13,6 +13,18 @@ module.exports = {
   plugins: [
     "gatsby-plugin-robots-txt",
     "gatsby-plugin-postcss",
+    {
+      resolve: `gatsby-source-sanity`,
+      options: {
+        projectId: `sye9c4pa`,
+        dataset: `production`,
+        token:
+          "skSPnb2UsXrLuj8RHmLTRBQnuWJIIvNKYA7O4aY2RQq9U39fjxQfkAuFFOeelmwjrcpWGeuJNF8YP7C4LpTZVEY3y5oJ6GjdASpx4UJFOY7N2aOrSUBfJjqISZqHAMs3byZrU6E9GCJzQn41KENafIGXBKKp9404cP2g5DJ5NeGOgdFMhsfs",
+        graphqlTag: "experiment",
+        watchMode: true,
+        overlayDrafts: true,
+      },
+    },
     "gatsby-plugin-image",
     {
       resolve: "gatsby-plugin-manifest",
@@ -78,11 +90,11 @@ module.exports = {
       resolve: `gatsby-transformer-remark`,
       options: {},
     },
-    {
-      resolve: `gatsby-source-wordpress`,
-      options: {
-        url: "http://localhost/wordpress/graphql",
-      },
-    },
+    // {
+    //   resolve: `gatsby-source-wordpress`,
+    //   options: {
+    //     url: "http://localhost/wordpress/graphql",
+    //   },
+    // },
   ],
 };

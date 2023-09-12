@@ -7,7 +7,7 @@ export function Post({ category, title, date, image, slug }) {
   return (
     <div className="flex items-center flex-col">
       {/* <img src={image} alt={title} /> */}
-      <GatsbyImage image={image} alt={title} />
+      <GatsbyImage className="h-72" image={image} alt={title} />
       <p className="mt-4 text-sm font-semibold border-b-2 border-yellow-500 uppercase w-max">
         {category}
       </p>

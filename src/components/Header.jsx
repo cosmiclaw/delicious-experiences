@@ -5,18 +5,23 @@ import Logo from "../content/assets/svgs/logo.svg";
 
 const navRef = React.createRef();
 
-export function Header() {
-  const [isSolid, setIsSolid] = React.useState(false);
+export function Header({ solid = false }) {
+  const [isSolid, setIsSolid] = React.useState(solid);
 
-  const makeSolidNavbarHandler = React.useCallback((e) => {
-    e.preventDefault();
+  const makeSolidNavbarHandler = React.useCallback(
+    (e) => {
+      e.preventDefault();
 
-    if (window.scrollY >= navRef.current.clientHeight + 50) {
-      setIsSolid(true);
-    } else {
-      setIsSolid(false);
-    }
-  }, []);
+      if (!solid) {
+        if (window.scrollY >= navRef.current.clientHeight + 50) {
+          setIsSolid(true);
+        } else {
+          setIsSolid(false);
+        }
+      }
+    },
+    [solid]
+  );
 
   React.useEffect(() => {
     window.document.addEventListener("scroll", makeSolidNavbarHandler);

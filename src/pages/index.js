@@ -7,16 +7,16 @@ import { Layout, FeaturedPost, PostGrid, Post, Seo } from "@components";
 import { formatDate } from "../utils/formatDate";
 
 const IndexPage = ({ data }) => {
-  const featuredPost = data.featuredPost.nodes[0];
-  const populatPosts = data.popularPosts.nodes;
-  const allPosts = data.allPosts.nodes;
+  const featuredPost = data.featured.nodes[0];
+  const popularPosts = data.top.nodes;
+  const allPosts = data.all.nodes;
 
   return (
     <Layout>
       <div className="showcase mb-40 flex justify-center">
         <FeaturedPost
           className="absolute bottom-[-110px]"
-          category={featuredPost.categories.nodes[0].name}
+          category={featuredPost.category}
           title={featuredPost.title}
           date={formatDate(Date(featuredPost.date))}
           slug={featuredPost.slug}
@@ -24,14 +24,14 @@ const IndexPage = ({ data }) => {
       </div>
       <div className="max-w-7xl mx-auto">
         <PostGrid>
-          {populatPosts.map((cur) => {
-            const image = getImage(cur.featuredImage.node);
+          {popularPosts.map((cur) => {
+            const image = getImage(cur.featured_image.asset);
 
             return (
               <Post
                 key={cur.id}
                 image={image}
-                category={cur.categories.nodes[0].name}
+                category={cur.category}
                 date={formatDate(Date(cur.date))}
                 title={cur.title}
                 slug={cur.slug}
@@ -60,13 +60,13 @@ const IndexPage = ({ data }) => {
       <div className="max-w-7xl mx-auto my-28">
         <PostGrid>
           {allPosts.map((cur) => {
-            const image = getImage(cur.featuredImage.node);
+            const image = getImage(cur.featured_image.asset);
 
             return (
               <Post
                 key={cur.id}
                 image={image}
-                category={cur.categories.nodes[0].name}
+                category={cur.category}
                 date={formatDate(Date(cur.date))}
                 title={cur.title}
                 slug={cur.slug}
@@ -85,84 +85,54 @@ export const Head = () => <Seo />;
 
 export const query = graphql`
   {
-    featuredPost: allWpPost(
-      filter: {
-        slug: {
-          eq: "how-to-write-perfect-seo-meta-description-tips-examples-2023"
-        }
-      }
-    ) {
+    featured: allSanityArticle(filter: { slug: { eq: "article-1" } }) {
       nodes {
-        id
-        slug
+        id: _id
         title
-        excerpt
+        slug
         date
-        categories {
-          nodes {
-            name
-          }
-        }
-        content
-        featuredImage {
-          node {
-            gatsbyImage(width: 563, height: 330)
+        category
+        excerpt: meta_desc
+        content: _rawContent
+        featured_image {
+          asset {
+            gatsbyImageData
           }
         }
       }
     }
-    popularPosts: allWpPost(
-      skip: 0
+    top: allSanityArticle(
+      filter: { slug: { ne: "article-1" } }
       limit: 3
-      filter: {
-        slug: {
-          ne: "how-to-write-perfect-seo-meta-description-tips-examples-2023"
-        }
-      }
+      skip: 0
     ) {
       nodes {
-        id
-        slug
+        id: _id
         title
-        excerpt
+        slug
         date
-        categories {
-          nodes {
-            name
-          }
-        }
-        content
-        featuredImage {
-          node {
-            gatsbyImage(width: 563, height: 330)
+        category
+        excerpt: meta_desc
+        content: _rawContent
+        featured_image {
+          asset {
+            gatsbyImageData
           }
         }
       }
     }
-
-    allPosts: allWpPost(
-      skip: 3
-      filter: {
-        slug: {
-          ne: "how-to-write-perfect-seo-meta-description-tips-examples-2023"
-        }
-      }
-    ) {
+    all: allSanityArticle(filter: { slug: { ne: "article-1" } }, skip: 3) {
       nodes {
-        id
-        slug
+        id: _id
         title
-        excerpt
+        slug
         date
-        categories {
-          nodes {
-            name
-          }
-        }
-        content
-        featuredImage {
-          node {
-            gatsbyImage(width: 563, height: 330)
+        category
+        excerpt: meta_desc
+        content: _rawContent
+        featured_image {
+          asset {
+            gatsbyImageData
           }
         }
       }
